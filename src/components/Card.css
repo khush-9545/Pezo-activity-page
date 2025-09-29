@@ -1,0 +1,116 @@
+.card{
+width: 100%;
+max-width: 400px;
+margin: 0 auto;
+background: white;
+border: 1px solid #e5e7eb;
+border-radius:16px;
+padding:16px;
+box-shadow:0 4px 12px rgba(0,0,0,0.08);
+font-family:'Arial',sans-serif;
+color:#2c3e50;
+
+}
+.card-head{
+display:flex;
+justify-content:space-between;
+align-items:center;
+margin-bottom:16px;
+font-size:1 rem;
+}
+.order-id{font-weight:600;}
+.status.done{color:#27ae60;font-weight:bold;}
+.time{color:#7f8c8d;font-size:0.85rem;}
+.card-body .file-info{display:flex;align-items:center;margin-bottom:16px;}
+.file-icon{font-size:2.2rem;margin-right:10px;}
+.file-details{display:flex;justify-content:space-between;width:100%;}
+.file-name{font-weight:500;color:#34495e;}
+.file-price{font-weight:bold;color:#2980b9}
+.feedback{margin-bottom:16px;}
+.feedback-status{color:#27ae60;display:block;margin-bottom:6px;font-weight:bold;}
+.rating{margin-bottom:10px;}
+.star{color:#ccc;cursor:pointer;font-size:1.3rem;transition:color 0.2s ease, transform 0.2s ease;}
+.star.filled{color:#f1c40f;}
+.rating-value{margin-left:8px;font-size:0.9rem;color:#34495e;}
+.feedback-text{width:100%;height:50px;border-radius:12px;
+    border:1px solid #bdc3c7;margin-bottom:10px;padding:8px 10px;resize:none;}
+.feedback-text:focus{border-color:#2980b9; box-shadow: #3498db;
+   outline:none;}
+.submit-btn{width:100%;padding:10px;border:none;border-radius:12px;color:white;margin-bottom:10px;transition: all 0.2s ease;}
+.submit-btn:not(:disabled){
+  background:linear-gradient(135deg,#2980b9,#3498db);
+  cursor:pointer;
+}
+.submit-btn:disabled{
+  background:rgb(205, 205, 205);
+  cursor:not-allowed;
+}
+.reorder-btn{width:100%;padding:10px;border:none;border-radius:12px;
+    background:linear-gradient(135deg,#2980b9,#3498db);color:white;cursor:pointer;}
+
+.processing-time{font-size:0.85rem;color:#2c3e50;}
+.time-lab{display:flex;justify-content:space-between;margin-bottom:6px;}
+.progress-bar{width:100%;height:6px;
+    border-radius:8px;margin-bottom:6px;position:relative;}
+.progress{width:100%;height:55%;background:rgb(0, 195, 0);
+    border-radius:8px;}
+
+/* Dynamic progress colors */
+.progress-preparing { background: #f59e0b; } /* orange */
+.progress-printing { background: #fbbf24; } /* yellow */
+.progress-processing { background: #10b981; } /* green */
+.durationn{font-size:0.75rem;color:#7f8c8d;text-align:right;}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+  .card {
+    max-width: 100%;
+    padding: 12px;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  .card-head {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+    margin-bottom: 12px;
+    font-size: 0.9rem;
+  }
+
+  .file-icon {
+    font-size: 1.8rem;
+    margin-right: 8px;
+  }
+
+  .star {
+    font-size: 1.1rem;
+  }
+
+  .rating-value {
+    font-size: 0.8rem;
+  }
+
+  .feedback-text {
+    height: 40px;
+    padding: 6px 8px;
+  }
+
+  .submit-btn,
+  .reorder-btn {
+    padding: 8px;
+    min-height: 44px; /* Touch-friendly */
+  }
+
+  .progress-bar {
+    height: 4px;
+  }
+
+  .processing-time {
+    font-size: 0.8rem;
+  }
+
+  .time-lab {
+    font-size: 0.75rem;
+  }
+}
