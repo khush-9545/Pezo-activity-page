@@ -42,6 +42,9 @@ const sampleOrders = [
     processingEndTime: '12:00 PM',
     queueProgress: 45,
     position: 21,
+    pages: 15,       
+    type: "Colour",
+    size: "A4",
     remainingTime: '5 Min'
   },
   {
@@ -55,6 +58,9 @@ const sampleOrders = [
     processingEndTime: '1:00 PM',
     queueProgress: 10,
     position: 5,
+    pages: 2,       
+    type: "B&W",
+    size: "A4",
     remainingTime: '15 Min'
   },
   {
@@ -68,6 +74,9 @@ const sampleOrders = [
     processingEndTime: '11:00 AM',
     queueProgress: 100,
     position: 1,
+    pages: 25,       
+    type: "Colour",
+    size: "A4",
     remainingTime: '0 Min',
     otp: '4829'
   },
