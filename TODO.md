@@ -1,0 +1,2 @@
+- [x] Add Google Fonts link for Inter in project/index.html
+- [x] Configure fontFamily in project/tailwind.config.js to set Inter as default sans font

@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import "./Card.css"; 
-const CompletedOrderCard = ({ order, onCommentSubmit }) => {
+import "./Card.css";
+import StarRating from "./StarRating";
+const CompletedOrderCard = ({ order, onCommentSubmit, onRatingChange }) => {
   const [comment, setComment] = useState("");
   const [submitted, setSubmitted] = useState(false);
   const rating = order.rating || 0;
@@ -35,16 +36,12 @@ const CompletedOrderCard = ({ order, onCommentSubmit }) => {
         <div className="feedback">
           <span className="feedback-status">Done</span>
           <div className="rating">
-            {[1,2,3,4,5].map((star) => {
-              return (
-                <span
-                  key={star}
-                  className={star <= rating ? "star filled" : "star"}
-                >
-                  ★
-                </span>
-              );
-            })}
+            <StarRating
+              rating={rating}
+              editable={true}
+              onRatingChange={onRatingChange}
+              orderId={order.id}
+            />
             <span className="rating-value">({rating}/5)</span>
           </div>
           <textarea

@@ -3,8 +3,8 @@ import {
   ArrowLeft,
   Menu
 } from 'lucide-react';
-import InProcessOrderCard from './components/InProcessOrderCard';
 import CompletedOrderCard from './components/CompletedOrderCard';
+import InProcessOrderCard from './components/InProcessOrderCard';
 
 const sampleOrders = [
   {
@@ -32,26 +32,44 @@ const sampleOrders = [
     queueProgress: 100
   },
   {
-    id: '#12-054',
-    status: 'In Process',
-    timeAgo: '2 hrs ago',
-    fileName: 'Budget_Report_2024.pdf',
-    price: '$24.00',
-    rating: 0,
-    processingStartTime: '1:00 PM',
-    processingEndTime: '2:15 PM',
-    queueProgress: 65
+    id: '#PZ-001',
+    status: 'Processing',
+    timeAgo: '2:30 PM',
+    fileName: 'Business_Report.pdf',
+    price: '$12.50',
+    rating: 4,
+    processingStartTime: '10:00 AM',
+    processingEndTime: '12:00 PM',
+    queueProgress: 45,
+    position: 21,
+    remainingTime: '5 Min'
   },
   {
-    id: '#12-052',
-    status: 'In Process',
-    timeAgo: '30 min ago',
-    fileName: 'Marketing_Presentation.pdf',
-    price: '$17.50',
+    id: '#PZ-002',
+    status: 'Waiting',
+    timeAgo: '1:15 PM',
+    fileName: 'Resume_2024.pdf',
+    price: '$2.00',
     rating: 0,
-    processingStartTime: '2:00 PM',
-    processingEndTime: '2:18 PM',
-    queueProgress: 100
+    processingStartTime: '11:00 AM',
+    processingEndTime: '1:00 PM',
+    queueProgress: 10,
+    position: 5,
+    remainingTime: '15 Min'
+  },
+  {
+    id: '#PZ-003',
+    status: 'Ready',
+    timeAgo: '12:45 PM',
+    fileName: 'Marketing_Presentation.ppt',
+    price: '$18.75',
+    rating: 5,
+    processingStartTime: '9:00 AM',
+    processingEndTime: '11:00 AM',
+    queueProgress: 100,
+    position: 1,
+    remainingTime: '0 Min',
+    otp: '4829'
   },
   {
     id: '#12-053',
@@ -71,9 +89,8 @@ function App() {
   const [activeTab, setActiveTab] = useState('completed');
   const [orders, setOrders] = useState(sampleOrders);
 
-  const inProcessOrders = orders.filter(order => order.status === 'In Process');
+  const inProcessOrders = orders.filter(order => ['Processing', 'Waiting', 'Ready'].includes(order.status));
   const completedOrders = orders.filter(order => order.status === 'Completed');
-
   const displayedOrders = activeTab === 'in-process' ? inProcessOrders : completedOrders;
 
   const totalSpend = orders.reduce((sum, order) => sum + parseFloat(order.price.slice(1)), 0);
@@ -96,7 +113,6 @@ function App() {
 
   return (
     <div className="min-h-screen bg-gray-50 w-full max-w-7xl mx-auto px-2 sm:px-4 lg:px-6">
-      {/* Top App Bar */}
       <div className="bg-white border-b border-gray-100">
         <div className="flex items-center justify-between px-2 sm:px-4 py-3">
           <ArrowLeft size={20} className="text-gray-600" />
@@ -106,13 +122,11 @@ function App() {
       </div>
 
       <div className="px-2 sm:px-4 pt-6">
-        {/* Section Header */}
         <div className="mb-6">
           <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-1">Order History</h2>
           <p className="text-base text-gray-600">Track all your printing orders.</p>
         </div>
 
-        {/* Segmented Tabs */}
         <div className="bg-white rounded-lg mb-2">
           <div className="flex items-center justify-between px-2 sm:px-4 py-3 sm:py-4">
             <div className="relative flex bg-gray-200 rounded-md p-0.5">
@@ -140,7 +154,6 @@ function App() {
           </div>
         </div>
 
-        {/* Counts and Total */}
         <div className="bg-white rounded-lg px-2 sm:px-4 py-2 mb-4">
           <div className="flex items-center justify-between">
             <div className="text-center">
@@ -160,30 +173,35 @@ function App() {
           </div>
         </div>
 
-        {/* Order Cards */}
-        <div className="bg-white rounded-lg p-2 sm:p-4 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-2 sm:gap-4">
+        <div className="bg-white rounded-lg p-2 sm:p-4">
           {activeTab === 'in-process' ? (
-            displayedOrders.map((order) => (
-              <InProcessOrderCard
-                key={order.id}
-                order={order}
-                onRatingChange={updateOrderRating}
-                onCommentSubmit={updateOrderComment}
-              />
-            ))
+            <div className="flex flex-row space-x-4 pb-4 flex-nowrap overflow-x-auto">
+              {displayedOrders.map((order) => (
+                <div key={order.id} className="flex-shrink-0 w-[360px]">
+                  <InProcessOrderCard
+                    order={order}
+                    onCommentSubmit={updateOrderComment}
+                    onRatingChange={updateOrderRating}
+                  />
+                </div>
+              ))}
+            </div>
           ) : (
-            displayedOrders.map((order) => (
-              <CompletedOrderCard
-                key={order.id}
-                order={order}
-                onCommentSubmit={updateOrderComment}
-              />
-            ))
+            <div className="flex flex-row space-x-4 pb-4 flex-nowrap overflow-x-auto">
+              {displayedOrders.map((order) => (
+                <div key={order.id} className="flex-shrink-0 w-[360px]">
+                  <CompletedOrderCard
+                    order={order}
+                    onCommentSubmit={updateOrderComment}
+                    onRatingChange={updateOrderRating}
+                  />
+                </div>
+              ))}
+            </div>
           )}
         </div>
       </div>
 
-      {/* Bottom spacing */}
       <div className="h-20"></div>
     </div>
   );
