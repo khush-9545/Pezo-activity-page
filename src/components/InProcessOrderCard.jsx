@@ -1,17 +1,15 @@
 import React, { useState } from "react";
+import "./Card.css";
 
-const InProcessOrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
+const InProcessOrderCard = ({ order, onRatingChange }) => {
   const [rating, setRating] = useState(order.rating || 0);
 
   const handleRatingChange = (newRating) => {
     setRating(newRating);
-    if (onRatingChange) {
-      onRatingChange(order.id, newRating);
-    }
+    if (onRatingChange) onRatingChange(order.id, newRating);
   };
 
-  // Determine status and corresponding Tailwind classes
-  const status = order.status || "Processing"; // default to Processing if not provided
+  const status = order.status || "Processing";
 
   const statusBg = {
     Processing: "bg-white",
@@ -20,101 +18,142 @@ const InProcessOrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
     Completed: "bg-green-50",
   };
 
-  const sectionBg = {
-    Processing: "bg-blue-50",
-    Waiting: "bg-yellow-50",
-    Ready: "bg-gray-50",
-    Completed: "bg-green-50",
-  };
-
-  const symbolBg = {
-    Processing: "bg-blue-100",
-    Waiting: "bg-yellow-100",
-    Ready: "bg-gray-100",
-    Completed: "bg-green-100",
-  };
-
   const badgeBg = {
     Processing: "bg-blue-100 text-blue-700",
     Waiting: "bg-yellow-100 text-yellow-700",
-    Ready: "bg-gray-100 text-gray-700",
+    Ready: "bg-green-400 text-white",
     Completed: "bg-green-100 text-green-700",
   };
 
   const progressBarColor = {
     Processing: "bg-blue-500",
     Waiting: "bg-yellow-400",
-    Ready: "bg-gray-400",
+    Ready: "bg-green-500",
     Completed: "bg-green-500",
   };
 
-  // Format times
-  const currentTime = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) || "Now";
+  const queueBoxColor = {
+    Processing: "bg-blue-100/40 border border-blue-200",
+    Waiting: "bg-yellow-100/40 border border-yellow-200",
+    Ready: "bg-green-100/40 border border-green-200",
+    Completed: "bg-green-100/40 border border-green-200",
+  };
+
+  const statusTextColor = {
+    Processing: "text-blue-600",
+    Waiting: "text-yellow-600",
+    Ready: "text-green-600",
+    Completed: "text-green-600",
+  };
+
+  const currentTime =
+    new Date().toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" }) || "Now";
 
   return (
-    <div className={`rounded-2xl shadow-md p-4 w-full max-w-md mx-auto ${statusBg[status] || "bg-blue-50"} ${status === "Ready" ? "border-2 border-green-500" : ""}`}>
+    <div
+      className={`card ${statusBg[status] || "bg-blue-50"} ${
+        status === "Ready" ? "border-2 border-green-500" : ""
+      } mt-0`} // remove extra top margin
+    >
       {/* Header */}
-      <div className="flex justify-between items-center mb-4">
-        <div className="font-bold text-lg truncate">#{order.id}</div>
-        <div className={`px-3 py-1 rounded-full text-sm font-semibold ${badgeBg[status] || "bg-blue-100 text-blue-700"}`}>
+      <div className="card-head mb-1"> {/* reduce margin-bottom */}
+        <div className="order-id">#{order.id}</div>
+        <div
+          className={`px-3 py-1 rounded-full text-sm font-semibold ${
+            badgeBg[status] || "bg-blue-100 text-blue-700"
+          }`}
+        >
           {status}
         </div>
-        <div className="text-gray-500 text-sm">{order.timeAgo || currentTime}</div>
+        <div className="time">{order.timeAgo || currentTime}</div>
       </div>
 
       {/* Body */}
-      <div className="flex items-center mb-4 space-x-4">
-        <div className={`text-3xl flex-shrink-0 p-1 rounded ${symbolBg[status] || "bg-blue-100"}`}>📄</div>
-        <div className="flex-1 min-w-0">
-          <div className="text-lg font-semibold truncate">{order.fileName}</div>
-          <div className="text-gray-500 text-sm truncate">{order.price}</div>
-        </div>
-      </div>
+      <div className="card-body pt-1 pb-2"> {/* reduce padding-top */}
+        <div className="file-info flex items-start gap-2">
+          <div className="file-icon">📄</div>
+          <div className="file-details flex flex-col">
+            <span className="file-name font-medium">{order.fileName}</span>
 
-      {/* OTP for Ready status */}
-      {status === "Ready" && order.otp && (
-        <div className="mb-2 p-2 bg-green-100 text-green-800 rounded text-center font-semibold">
-          OTP: {order.otp}
+            {/* Document details below file name */}
+            {(order.pages || order.type || order.size) && (
+              <div className="document-details text-sm text-gray-600 mt-1 flex flex-row gap-1 items-center">
+                {order.pages && <span>{order.pages} pages</span>}
+                {order.type && order.pages && <span>&#8226;</span>}
+                {order.type && <span>{order.type}</span>}
+                {order.size && (order.pages || order.type) && <span>&#8226;</span>}
+                {order.size && <span>{order.size}</span>}
+              </div>
+            )}
+          </div>
         </div>
-      )}
 
-      {/* Queue Progress */}
-      <div className={`mb-2 p-2 rounded ${sectionBg[status] || "bg-blue-50"}`}>
-        <div className="text-sm font-semibold text-gray-700 mb-1">Queue Progress</div>
-        <div className="w-full bg-gray-300 rounded-full h-3 overflow-hidden">
-          <div
-            className={`${progressBarColor[status] || "bg-blue-500"} h-3 rounded-full`}
-            style={{ width: `${order.queueProgress || 0}%` }}
-          ></div>
-        </div>
-        <div className="flex justify-between text-gray-500 text-sm mt-1">
-          <div>Position: {order.position || "N/A"}</div>
-          <div>~{order.remainingTime || "5 Min"} remaining</div>
+        {/* OTP for Ready status */}
+        {status === "Ready" && order.otp && (
+          <div className="mb-4 w-full flex justify-center">
+            <div className="rounded-md border-2 border-dashed border-green-500 bg-green-100 text-gray-800 text-center font-light px-4 py-2 max-w-xs flex flex-col items-center">
+              <div>
+                OTP: <br />
+                <span className="text-2xl font-bold text-green-700">{order.otp}</span>
+              </div>
+              <div className="flex items-center gap-2 mt-2">
+                <i className="bi bi-info-circle-fill text-green-500 text-lg"></i>
+                <span className="text-gray-600">show OTP to collect your order</span>
+              </div>
+            </div>
+          </div>
+        )}
+
+        {/* Queue Progress */}
+        <div
+          className={`queue-progress-section mt-2 p-2 rounded-md ${
+            queueBoxColor[status] || "bg-gray-100/40 border border-gray-200"
+          }`}
+        >
+          <div className="flex justify-between items-center mb-1">
+            <div className="queue-progress-label font-medium">Queue Progress</div>
+            {status !== "Ready" && (
+              <div className={`text-sm ${statusTextColor[status] || "text-gray-700"}`}>
+                Position: {order.position || "N/A"}
+              </div>
+            )}
+          </div>
+
+          <div className="relative w-full h-1 bg-gray-300 rounded-full overflow-visible">
+            <div
+              className={`${progressBarColor[status]} h-1 rounded-full`}
+              style={{ width: `${order.queueProgress || 0}%` }}
+            ></div>
+
+            <span
+              className={`absolute left-0 top-1/2 w-3 h-3 rounded-full transform -translate-y-1/2 ${
+                (order.queueProgress || 0) >= 0 ? progressBarColor[status] : "bg-gray-400"
+              }`}
+            ></span>
+            <span
+              className={`absolute left-1/2 top-1/2 w-3 h-3 rounded-full transform -translate-x-1/2 -translate-y-1/2 ${
+                (order.queueProgress || 0) >= 50 ? progressBarColor[status] : "bg-gray-400"
+              }`}
+            ></span>
+            <span
+              className={`absolute right-0 top-1/2 w-3 h-3 rounded-full transform -translate-y-1/2 ${
+                (order.queueProgress || 0) >= 100 ? progressBarColor[status] : "bg-gray-400"
+              }`}
+            ></span>
+          </div>
+
+          <div className={`text-center text-sm mt-1 ${statusTextColor[status] || "text-gray-700"}`}>
+            ~{order.remainingTime || "5 Min"} remaining
+          </div>
         </div>
       </div>
 
       {/* Footer Timeline */}
-      <div className="flex justify-between text-gray-500 text-sm mt-4">
-        <div>{order.processingStartTime || "Start"}</div>
-        <div>{currentTime}</div>
-        <div>{order.processingEndTime || "End"}</div>
+      <div className="time-lab mt-2 flex justify-between">
+        <span>{order.processingStartTime || "Start"}</span>
+        <span>{currentTime}</span>
+        <span>{order.processingEndTime || "End"}</span>
       </div>
-
-      {/* Optional Rating */}
-      {false && (
-        <div className="flex justify-end mt-4 space-x-1">
-          {[1, 2, 3, 4, 5].map((star) => (
-            <button
-              key={star}
-              onClick={() => handleRatingChange(star)}
-              className={`text-xl ${star <= rating ? "text-yellow-400" : "text-gray-300"}`}
-              aria-label={`Rate ${star} star`}
-            >
-              ★
-            </button>
-          ))}
-        </div>
-      )}
     </div>
   );
 };
