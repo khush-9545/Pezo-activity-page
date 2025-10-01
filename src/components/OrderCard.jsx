@@ -4,19 +4,15 @@ import StarRating from './StarRating';
 import TimeRangeEditor from './TimeRangeEditor';
 import InProcessOrderCard from './InProcessOrderCard';
 import CompletedOrderCard from './CompletedOrderCard';
-
 const OrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
   if (order.status === 'In Process') {
     return <InProcessOrderCard order={order} onRatingChange={onRatingChange} onCommentSubmit={onCommentSubmit} />;
   }
-
   if (order.status === 'Completed') {
     return <CompletedOrderCard order={order} />;
   }
-
   return (
   <div className="bg-white">
-    {/* Order Header */}
     <div className="flex items-center justify-between px-2 sm:px-4 pt-4 pb-2">
       <div className="flex items-center space-x-2">
         <span className="text-sm sm:text-base font-medium text-gray-900">{order.id}</span>
@@ -40,8 +36,6 @@ const OrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
       </div>
       <span className="text-xs sm:text-sm text-gray-500">{order.timeAgo}</span>
     </div>
-
-    {/* File Info */}
     <div className="flex items-center justify-between px-2 sm:px-4 pb-3">
       <div className="flex items-center space-x-3">
         <div className="bg-gray-100 p-2 rounded-lg">
@@ -51,8 +45,6 @@ const OrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
       </div>
       <span className="text-sm sm:text-base font-semibold text-gray-900">{order.price}</span>
     </div>
-
-    {/* Queue Progress - only for in-process */}
     {order.status === 'In Process' && (
       <div className="px-2 sm:px-4 pb-3">
         <div className="flex items-center justify-between mb-2">
@@ -67,8 +59,6 @@ const OrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
         </div>
       </div>
     )}
-
-    {/* Status */}
     {order.status === 'Completed' ? (
       <div className="px-2 sm:px-4 pb-3 bg-green-50 rounded-lg">
         <div className="flex items-center justify-between">
@@ -90,8 +80,6 @@ const OrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
         </div>
       )
     ) : null}
-
-    {/* Rating */}
     <div className="px-2 sm:px-4 pb-3">
       <span className="block text-xs sm:text-sm text-gray-600 mb-2">Rate Experience</span>
       <StarRating
@@ -103,21 +91,14 @@ const OrderCard = ({ order, onRatingChange, onCommentSubmit }) => {
         onCommentSubmit={onCommentSubmit}
       />
     </div>
-
-    {/* Reorder Button */}
     <div className="px-2 sm:px-4 pb-3">
       <button className="w-full bg-blue-500 text-white py-2 sm:py-2.5 rounded-lg text-sm sm:text-base font-medium hover:bg-blue-600 transition-colors">
         Reorder
       </button>
     </div>
-
-    {/* Processing Time - Editable */}
     <TimeRangeEditor order={order} />
-
-    {/* Divider */}
     <div className="border-b border-gray-100 mx-2 sm:mx-4"></div>
   </div>
 );
 };
-
 export default OrderCard;

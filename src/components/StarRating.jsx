@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 const StarRating = ({ rating, editable = true, onRatingChange, orderId }) => {
   const [hover, setHover] = useState(0);
-
   const handleClick = (value) => {
     if (editable && onRatingChange) {
       onRatingChange(orderId, value);

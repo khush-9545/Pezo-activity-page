@@ -61,6 +61,58 @@ font-size:1 rem;
 .progress-processing { background: #10b981; } /* green */
 .durationn{font-size:0.75rem;color:#7f8c8d;text-align:right;}
 
+.inprocess-card {
+  background: #fff9f0;
+  border-color: #fbbf24;
+}
+
+.status-label {
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: 12px;
+  color: white;
+  font-size: 0.85rem;
+  text-transform: uppercase;
+}
+
+.status-preparing {
+  background-color: #f59e0b;
+}
+
+.status-printing {
+  background-color: #fbbf24;
+  color: #5a4a00;
+}
+
+.status-processing {
+  background-color: #10b981;
+}
+
+.queue-progress-section {
+  margin-top: 12px;
+  margin-bottom: 12px;
+}
+
+.queue-progress-label {
+  font-weight: 600;
+  font-size: 0.85rem;
+  margin-bottom: 6px;
+  color: #34495e;
+}
+
+.position-label {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 6px;
+}
+
+.remaining-time {
+  font-size: 0.8rem;
+  color: #7f8c8d;
+  margin-top: 4px;
+  font-weight: 600;
+}
+
 /* Mobile responsiveness */
 @media (max-width: 640px) {
   .card {
