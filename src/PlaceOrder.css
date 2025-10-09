@@ -1,0 +1,10 @@
+/* src/PlaceOrder.css */
+.place-order-container {
+  text-align: center;
+  margin-top: 50px;
+  font-family: Arial, sans-serif;
+}
+
+.place-order-container h1 {
+  color: #2e7d32;
+}
