@@ -1,0 +1,248 @@
+/* Overall Page */
+.placeorder-page {
+  background-color: #f9fafc;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  font-family: "Poppins", sans-serif;
+}
+
+/* Header */
+.po-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 50px;
+  background: white;
+  border-bottom: 3px solid #007bff; /* <-- Blue line */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+}
+
+
+.po-logo {
+  font-size: 22px;
+  font-weight: bold;
+  color: #007bff;
+}
+
+.po-nav {
+  display: flex;
+  align-items: center;
+  gap: 25px;
+}
+
+.po-nav a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 500;
+  transition: color 0.3s;
+}
+
+.po-nav a:hover {
+  color: #007bff;
+}
+
+.po-login-btn {
+  background-color: #007bff;
+  color: white;
+  border: none;
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: background 0.3s;
+}
+
+.po-login-btn:hover {
+  background-color: #005fcc;
+}
+
+/* Main Layout */
+.po-main {
+  display: flex;
+  justify-content: space-around;
+  align-items: flex-start;
+  padding: 60px;
+  gap: 50px;
+}
+
+/* Upload Box */
+.po-upload-box {
+  background: white;
+  border-radius: 12px;
+  padding: 30px;
+  width: 55%;
+  text-align: center;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.po-upload-box h2 {
+  margin-bottom: 20px;
+  font-size: 22px;
+}
+
+.po-upload-area {
+  border: 2px dashed #c8c8c8;
+  border-radius: 10px;
+  padding: 20px;
+  background: #fdfdfd;
+  transition: background 0.3s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  min-width: 300px;
+  max-width: 100%;
+  max-height: 500px; /* fixed height for scroll */
+  overflow: auto;    /* scroll when content exceeds box */
+}
+
+.po-pdf-preview img {
+  max-width: 100%;  /* fit box width */
+  height: auto;
+  margin-bottom: 15px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+
+
+.po-upload-area:hover {
+  background: #f7faff;
+}
+
+.po-upload-icon {
+  font-size: 40px;
+  margin-bottom: 10px;
+}
+
+.po-file-btn {
+  display: inline-block;
+  margin-top: 50px;
+  background: linear-gradient(to right, #cd9b39, #473dd3);
+  color: white;
+  padding: 10px 35px;
+  border-radius: 25px;
+  cursor: pointer;
+  font-weight: 500;
+  transition: transform 0.2s;
+}
+
+.po-file-btn:hover {
+  transform: scale(1.05);
+  
+}
+
+.po-filename {
+  margin-top: 12px;
+  font-size: 14px;
+  color: #666;
+}
+
+/* Summary Card */
+.po-summary-card {
+  background: white;
+  border-radius: 12px;
+  padding: 25px;
+  width: 300px;
+  line-height: 32px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.po-summary-card h3 {
+  margin-bottom: 10px;
+  font-size: 18px;
+  color: #222;
+}
+
+.po-summary-card label {
+  font-size: 14px;
+  color: #555;
+  display: block;
+  margin-bottom: 5px;
+}
+
+.po-summary-card input {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  margin-bottom: 15px;
+  font-size: 14px;
+}
+
+.po-color-buttons {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.po-color-buttons button {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background: #f5f5f5;
+  font-weight: 500;
+}
+
+.po-color-buttons button.active {
+  background-color: #007bff;
+  color: white;
+  border-color: #007bff;
+}
+
+.po-divider {
+  height: 1px;
+  background-color: #eaeaea;
+  margin: 15px 0;
+}
+
+.po-summary-details p {
+  display: flex;
+  justify-content: space-between;
+  margin: 8px 0;
+  color: #333;
+  font-size: 14px;
+}
+
+.po-selectshop-btn,
+.po-placeorder-btn {
+  width: 100%;
+  padding: 10px;
+  border-radius: 25px;
+  border: none;
+  font-weight: 600;
+  cursor: pointer;
+  margin-top: 10px;
+}
+
+.po-selectshop-btn {
+  background-color: #f0f0f0;
+  color: #333;
+}
+
+.po-placeorder-btn {
+  background: linear-gradient(to right, #cd9b39, #473dd3);
+  color: white;
+}
+
+.po-placeorder-btn:hover {
+  opacity: 0.9;
+}
+
+.po-pdf-preview {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  max-height: 500px;
+  overflow-y: auto;
+}
+
+.po-pdf-preview img {
+  width: 100%;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+}
+

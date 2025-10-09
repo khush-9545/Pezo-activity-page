@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import {
-  ArrowLeft,
-  Menu
-} from 'lucide-react';
+import { ArrowLeft, Menu } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 import CompletedOrderCard from './components/CompletedOrderCard';
 import InProcessOrderCard from './components/InProcessOrderCard';
 
@@ -42,7 +40,7 @@ const sampleOrders = [
     processingEndTime: '12:00 PM',
     queueProgress: 45,
     position: 21,
-    pages: 15,       
+    pages: 15,
     type: "Colour",
     size: "A4",
     remainingTime: '5 Min'
@@ -58,7 +56,7 @@ const sampleOrders = [
     processingEndTime: '1:00 PM',
     queueProgress: 10,
     position: 5,
-    pages: 2,       
+    pages: 2,
     type: "B&W",
     size: "A4",
     remainingTime: '15 Min'
@@ -74,7 +72,7 @@ const sampleOrders = [
     processingEndTime: '11:00 AM',
     queueProgress: 100,
     position: 1,
-    pages: 25,       
+    pages: 25,
     type: "Colour",
     size: "A4",
     remainingTime: '0 Min',
@@ -97,6 +95,7 @@ const sampleOrders = [
 function App() {
   const [activeTab, setActiveTab] = useState('completed');
   const [orders, setOrders] = useState(sampleOrders);
+  const navigate = useNavigate();
 
   const inProcessOrders = orders.filter(order => ['Processing', 'Waiting', 'Ready'].includes(order.status));
   const completedOrders = orders.filter(order => order.status === 'Completed');
@@ -130,10 +129,25 @@ function App() {
         </div>
       </div>
 
+      {/* Title + Button */}
       <div className="px-2 sm:px-4 pt-6">
-        <div className="mb-6">
-          <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-1">Order History</h2>
-          <p className="text-base text-gray-600">Track all your printing orders.</p>
+        <div className="mb-6 flex items-center justify-between flex-wrap gap-2">
+          <div>
+            <h2 className="text-xl sm:text-2xl font-semibold text-gray-900 mb-1">
+              Order History
+            </h2>
+            <p className="text-base text-gray-600">
+              Track all your printing orders.
+            </p>
+          </div>
+
+          <button
+            onClick={() => navigate('/place-order')}
+            className="bg-orange-500 hover:bg-orange-600 text-white px-4 py-2 rounded-lg shadow-md text-sm sm:text-base transition-all"
+          >
+            Place Order
+          </button>
+
         </div>
 
         <div className="bg-white rounded-lg mb-2">
