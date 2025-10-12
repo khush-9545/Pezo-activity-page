@@ -8,7 +8,7 @@
 }
 
 /* Header */
-.po-header {
+.header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -19,30 +19,30 @@
 }
 
 
-.po-logo {
+.logo {
   font-size: 22px;
   font-weight: bold;
   color: #007bff;
 }
 
-.po-nav {
+.nav {
   display: flex;
   align-items: center;
   gap: 25px;
 }
 
-.po-nav a {
+.nav a {
   text-decoration: none;
   color: #333;
   font-weight: 500;
   transition: color 0.3s;
 }
 
-.po-nav a:hover {
+.nav a:hover {
   color: #007bff;
 }
 
-.po-login-btn {
+.login-btn {
   background-color: #007bff;
   color: white;
   border: none;
@@ -53,12 +53,12 @@
   transition: background 0.3s;
 }
 
-.po-login-btn:hover {
+.login-btn:hover {
   background-color: #005fcc;
 }
 
 /* Main Layout */
-.po-main {
+.main {
   display: flex;
   justify-content: space-around;
   align-items: flex-start;
@@ -67,7 +67,7 @@
 }
 
 /* Upload Box */
-.po-upload-box {
+.upload-box {
   background: white;
   border-radius: 12px;
   padding: 30px;
@@ -76,12 +76,12 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.po-upload-box h2 {
+.upload-box h2 {
   margin-bottom: 20px;
   font-size: 22px;
 }
 
-.po-upload-area {
+.upload-area {
   border: 2px dashed #c8c8c8;
   border-radius: 10px;
   padding: 20px;
@@ -97,7 +97,7 @@
   overflow: auto;    /* scroll when content exceeds box */
 }
 
-.po-pdf-preview img {
+.pdf-preview img {
   max-width: 100%;  /* fit box width */
   height: auto;
   margin-bottom: 15px;
@@ -106,16 +106,16 @@
 }
 
 
-.po-upload-area:hover {
+.upload-area:hover {
   background: #f7faff;
 }
 
-.po-upload-icon {
+.upload-icon {
   font-size: 40px;
   margin-bottom: 10px;
 }
 
-.po-file-btn {
+.file-btn {
   display: inline-block;
   margin-top: 50px;
   background: linear-gradient(to right, #cd9b39, #473dd3);
@@ -127,19 +127,19 @@
   transition: transform 0.2s;
 }
 
-.po-file-btn:hover {
+.file-btn:hover {
   transform: scale(1.05);
   
 }
 
-.po-filename {
+.filename {
   margin-top: 12px;
   font-size: 14px;
   color: #666;
 }
 
 /* Summary Card */
-.po-summary-card {
+.summary-card {
   background: white;
   border-radius: 12px;
   padding: 25px;
@@ -148,20 +148,20 @@
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 }
 
-.po-summary-card h3 {
+.summary-card h3 {
   margin-bottom: 10px;
   font-size: 18px;
   color: #222;
 }
 
-.po-summary-card label {
+.summary-card label {
   font-size: 14px;
   color: #555;
   display: block;
   margin-bottom: 5px;
 }
 
-.po-summary-card input {
+.summary-card input {
   width: 100%;
   padding: 8px;
   border: 1px solid #ddd;
@@ -170,13 +170,13 @@
   font-size: 14px;
 }
 
-.po-color-buttons {
+.color-buttons {
   display: flex;
   gap: 10px;
   margin-bottom: 20px;
 }
 
-.po-color-buttons button {
+.color-buttons button {
   flex: 1;
   padding: 8px;
   border-radius: 6px;
@@ -186,19 +186,19 @@
   font-weight: 500;
 }
 
-.po-color-buttons button.active {
+.color-buttons button.active {
   background-color: #007bff;
   color: white;
   border-color: #007bff;
 }
 
-.po-divider {
+.divider {
   height: 1px;
   background-color: #eaeaea;
   margin: 15px 0;
 }
 
-.po-summary-details p {
+.summary-details p {
   display: flex;
   justify-content: space-between;
   margin: 8px 0;
@@ -206,8 +206,8 @@
   font-size: 14px;
 }
 
-.po-selectshop-btn,
-.po-placeorder-btn {
+.selectshop-btn,
+.placeorder-btn {
   width: 100%;
   padding: 10px;
   border-radius: 25px;
@@ -217,21 +217,21 @@
   margin-top: 10px;
 }
 
-.po-selectshop-btn {
+.selectshop-btn {
   background-color: #f0f0f0;
   color: #333;
 }
 
-.po-placeorder-btn {
+.placeorder-btn {
   background: linear-gradient(to right, #cd9b39, #473dd3);
   color: white;
 }
 
-.po-placeorder-btn:hover {
+.placeorder-btn:hover {
   opacity: 0.9;
 }
 
-.po-pdf-preview {
+.pdf-preview {
   margin-top: 20px;
   display: flex;
   flex-direction: column;
@@ -240,7 +240,7 @@
   overflow-y: auto;
 }
 
-.po-pdf-preview img {
+.pdf-preview img {
   width: 100%;
   border-radius: 5px;
   border: 1px solid #ccc;
