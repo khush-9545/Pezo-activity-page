@@ -245,4 +245,90 @@
   border-radius: 5px;
   border: 1px solid #ccc;
 }
+.clear-btn {
+  margin-top: 10px;
+  padding: 8px 16px;
+  background-color: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.clear-btn:hover {
+  background-color: #c0392b;
+}
+.page-input-wrapper {
+  position: relative;
+  width: 100%;
+}
+
+.page-input-highlight {
+  position: absolute;
+  top: 0;
+  left: 0;
+  padding: 8px 10px;
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  color: #000;
+  background-color: white;
+  white-space: pre-wrap;
+  overflow-x: auto;
+  pointer-events: none; /* lets you click through to the real input */
+}
+
+.page-input-overlay {
+  position: relative;
+  padding: 8px 10px;
+  width: 100%;
+  min-height: 36px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  color: transparent;
+  background-color: transparent;
+  caret-color: black;
+  outline: none;
+}
+
+.placeholder-text {
+  color: #888;
+}
+
+.page-input-editable {
+  min-height: 36px;
+  padding: 8px 10px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 14px;
+  font-family: inherit;
+  white-space: pre-wrap;
+  outline: none;
+}
+
+.page-input-editable:empty:before {
+  content: attr(data-placeholder);
+  color: #888;
+}
+
+.full-page-checkbox {
+  display: flex;            /* horizontal layout */
+  align-items: center;      /* vertically center checkbox and text */
+  gap: 6px;                 /* spacing between checkbox and text */
+  margin-top: 8px;          /* optional spacing from other elements */
+  font-size: 14px;
+}
+
+.full-page-checkbox input[type="checkbox"] {
+  margin: 0;                /* remove default browser margin */
+  width: 14px;              /* set consistent size */
+  height: 17px;
+  vertical-align: middle;   /* align with text */
+}
 

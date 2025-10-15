@@ -9,9 +9,18 @@ pdfjsLib.GlobalWorkerOptions.workerSrc =
 const PlaceOrder = () => {
   const [file, setFile] = useState(null);
   const [pages, setPages] = useState([]);
-  const [processedPages, setProcessedPages] = useState([]);
-  const [pagesInput, setPagesInput] = useState("");
+  const [processedPages, setProcessedPages] = useState([]); 
+  const [pagesInput, setPagesInput] = useState(""); 
   const [colorType, setColorType] = useState("Color");
+  const [invalidPages, setInvalidPages] = useState([]);
+              //   const [validPages, setValidPages] = useState([]); // array of valid pages
+              // const [isPlaceOrderEnabled, setIsPlaceOrderEnabled] = useState(false); // for button enable/disable
+const [orders, setOrders] = useState([]); // stores all orders temporarily
+const [selectAllPages, setSelectAllPages] = useState(false); // new state for full PDF selection
+
+
+
+
 
   // Handle file selection
   const handleFileChange = (e) => {
@@ -121,6 +130,127 @@ const parsePagesInput = (input, totalPages) => {
     .filter((i) => i >= 0 && i < totalPages)  
     .sort((a, b) => a - b); 
 };
+// Find invalid page numbers entered by user
+const findInvalidPages = (input, totalPages) => {
+  if (!input) return [];
+
+  const invalid = [];
+  input.split(",").forEach((part) => {
+    if (part.includes("-")) {
+      const [start, end] = part.split("-").map(Number);
+      for (let i = start; i <= end; i++) {
+        if (i > totalPages || i < 1) invalid.push(i);
+      }
+    } else {
+      const num = Number(part);
+      if (num > totalPages || num < 1) invalid.push(num);
+    }
+  });
+
+  return invalid;
+};
+// Handle changes in the pages input field
+const handleInputChange = (e) => { 
+  const text = e.currentTarget.textContent; // get user-typed text
+  setPagesInput(text);
+
+  const { valid, invalid } = parsePagesContent(text, processedPages.length);
+  setValidPages(valid);
+  setInvalidPages(invalid);
+  setIsPlaceOrderEnabled(valid.length > 0 && invalid.length === 0); // enable only if all valid
+};
+
+
+// Parse input and return valid and invalid pages
+const parsePagesContent = (input, totalPages) => {
+  const valid = [];
+  const invalid = [];
+
+  if (!input) return { valid: [], invalid: [] };
+
+  input.split(",").forEach((part) => {
+    part = part.trim();
+    if (!part) return;
+
+    if (part.includes("-")) {
+      const [start, end] = part.split("-").map(Number);
+      for (let i = start; i <= end; i++) {
+        if (i >= 1 && i <= totalPages) valid.push(i);
+        else invalid.push(i);
+      }
+    } else {
+      const num = Number(part);
+      if (num >= 1 && num <= totalPages) valid.push(num);
+      else invalid.push(num);
+    }
+  });
+
+  return { valid, invalid };
+};
+
+// Render input with invalid pages highlighted in red
+const renderHighlightedInput = (input, totalPages) => {
+  if (!input) return "";
+
+  return input
+    .split(/([-,])/)
+    .map((token) => {
+      if (/^\d+$/.test(token)) {
+        const num = Number(token);
+        const isInvalid = num < 1 || num > totalPages;
+        return `<span style="color:${isInvalid ? "red" : "black"}">${token}</span>`;
+      } else {
+        return token; // keep separators as black
+      }
+    })
+    .join("");
+};
+
+
+// Handle Place Order button click sending data to backend in JSON including valid pages, color type, and file name in array
+// responsible for sending order data to backend or updating state and also all the logic in the place order button
+const handlePlaceOrder = () => {
+  if (!file) {
+    alert("Please select a PDF file!");
+    return;
+  }
+
+  // If checkbox is ticked, send all pages
+  const selectedPages = selectAllPages
+    ? Array.from({ length: processedPages.length }, (_, i) => i + 1) // all pages 1-indexed
+    : parsePagesInput(pagesInput, processedPages.length).map((i) => i + 1); // selected pages
+
+  if (selectedPages.length === 0) {
+    alert("No valid pages selected!");
+    return;
+  }
+
+  const orderData = {
+    fileName: file.name,
+    colorType,
+    pages: selectedPages, // this array will always contain pages to send
+    timestamp: new Date().toISOString(),
+  };
+
+  // Send to backend or update state
+  setOrders((prev) => [...prev, orderData]);
+
+  console.log("Order sent to backend:", orderData);
+
+  // Reset UI
+  setPagesInput("");
+  setInvalidPages([]);
+  setFile(null);
+  setPages([]);
+  setProcessedPages([]);
+  setSelectAllPages(false);
+};
+
+
+
+
+
+
 
 
   return (
@@ -138,7 +268,7 @@ const parsePagesInput = (input, totalPages) => {
       {/* Main Content */}
       <div className="main">
         {/* Left Section - PDF Upload + Preview toward the printing */}
-        <div className="upload-box" onDrop={handleDrop} onDragOver={handleDragOver}> // drag-drop area
+        <div className="upload-box" onDrop={handleDrop} onDragOver={handleDragOver}> {/* drag-drop area */}
           <h2>Upload Your PDF</h2>
           <div
   className="upload-area"
@@ -158,16 +288,32 @@ const parsePagesInput = (input, totalPages) => {
       {file && <p className="filename">{file.name}</p>}
     </>
   ) : (
-    <div className="pdf-preview">
-  {processedPages
-    .filter((_, idx) => parsePagesInput(pagesInput, processedPages.length).includes(idx))
-    .map((src, idx) => (
-      <img key={idx} src={src} alt={`Page ${idx + 1}`} />
-    ))}
-</div>
+    <>
+      <div className="pdf-preview">
+        {processedPages
+          .filter((_, idx) =>
+            parsePagesInput(pagesInput, processedPages.length).includes(idx)
+          )
+          .map((src, idx) => (
+            <img key={idx} src={src} alt={`Page ${idx + 1}`} />
+          ))}
+      </div>
 
+      {/* 🆕 Add this Clear button here */}
+      <button
+        className="clear-btn"
+        onClick={() => {
+          setFile(null);
+          setPages([]);
+          setProcessedPages([]);
+        }}
+      >
+        Remove PDF
+      </button>
+    </>
   )}
 </div>
+
 
 
           
@@ -176,13 +322,108 @@ const parsePagesInput = (input, totalPages) => {
         {/* Right Section - Options + Summary */}
         <div className="summary-card">
           <h3>Print Options</h3>
-          <label>Number of Pages</label>
-          <input
-  type="text"
-  placeholder="e.g. 1-5,7,9"
-  value={pagesInput}
-  onChange={(e) => setPagesInput(e.target.value)}
-/>
+          {/* {the pages turning number red} */}
+<label>Number of Pages</label>
+
+{/* Checkbox for selecting all pages */}
+<label className="full-page-checkbox">
+  <input
+    type="checkbox"
+    checked={selectAllPages}
+    onChange={(e) => setSelectAllPages(e.target.checked)}
+  />
+  Select Full PDF
+</label>
+
+<div className="page-input-wrapper">
+  {!selectAllPages && (
+    <>
+      {/* Highlight Layer */}
+      <div className="page-input-highlight">
+        {/* Your existing number-highlighting logic here */}
+        {(() => {
+          if (!pagesInput) return <span className="placeholder-text">e.g. 1-5,7,9</span>;
+          const tokens = pagesInput.match(/\d+|[^0-9]+/g) || [];
+          return tokens.map((token, idx) => {
+            if (/^\d+$/.test(token)) {
+              const num = Number(token);
+              const isInvalid = num > processedPages.length || num < 1;
+              return (
+                <span key={idx} style={{ color: isInvalid ? "red" : "black", fontWeight: isInvalid ? "600" : "normal" }}>
+                  {token}
+                </span>
+              );
+            } else {
+              return <span key={idx} style={{ color: "black" }}>{token}</span>;
+            }
+          });
+        })()}
+      </div>
+
+      {/* Transparent Input Layer */}
+      <input
+        type="text"
+        className="page-input-overlay"
+        placeholder="e.g. 1-5,7,9"
+        value={pagesInput}
+        onChange={(e) => {
+          const value = e.target.value;
+          setPagesInput(value);
+          setInvalidPages(findInvalidPages(value, processedPages.length));
+        }}
+        disabled={selectAllPages} // disables input if full page selected
+      />
+    </>
+  )}
+</div>
+
+{/* <label className="full-page-checkbox">
+  <input
+    type="checkbox"
+    checked={selectAllPages}
+    onChange={(e) => setSelectAllPages(e.target.checked)}
+  />
+  Select Full PDF
+</label> */}
+
+
+
+
+
+{/* {pagesInput && ( // show only if there's input
+  <div className="page-validation"> 
+    {pagesInput.split(",").map((part, idx) => { // split by comma
+      if (part.includes("-")) {
+        const [start, end] = part.split("-").map(Number);
+        const rangeDisplay = []; // display range
+        for (let i = start; i <= end; i++) {
+          const isInvalid = invalidPages.includes(i); // check if invalid
+          rangeDisplay.push(
+            <span 
+              key={`${part}-${i}`}// unique key
+              style={{ color: isInvalid ? "red" : "black", marginRight: 4 }}
+            >
+              {i}
+            </span>
+          );
+        }
+        return <span key={idx}>{rangeDisplay}</span>;
+      } else {
+        const num = Number(part);
+        const isInvalid = invalidPages.includes(num);
+        return (
+          <span
+            key={idx}
+            style={{ color: isInvalid ? "red" : "black", marginRight: 4 }}
+          >
+            {num}
+          </span>
+        );
+      }
+    })}
+  </div>
+)} */}
+
 
 
           <div className="color-buttons">
@@ -218,8 +459,16 @@ const parsePagesInput = (input, totalPages) => {
             </p>
           </div>
 
-          <button className="selectshop-btn">Select Shop</button>
-          <button className="placeorder-btn">Place Order</button>
+          <button className="selectshop-btn">Select Shop</button> {/* non-functional */}
+          <button
+  className="placeorder-btn" 
+  disabled={!file || (!selectAllPages && (invalidPages.length > 0 || pagesInput.trim() === ""))}
+  onClick={handlePlaceOrder}
+>
+  Place Order
+</button> {/* disabled if no file or invalid pages */}
+
+
         </div>
       </div>
     </div>
