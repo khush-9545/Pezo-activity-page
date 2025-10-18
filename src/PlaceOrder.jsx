@@ -326,14 +326,14 @@ const handlePlaceOrder = () => {
 <label>Number of Pages</label>
 
 {/* Checkbox for selecting all pages */}
-{/* <label className="full-page-checkbox">
+<label className="full-page-checkbox">
   <input
     type="checkbox"
     checked={selectAllPages}
     onChange={(e) => setSelectAllPages(e.target.checked)}
   />
   Select Full PDF
-</label> */}
+</label>
 
 <div className="page-input-wrapper">
   {!selectAllPages && (
